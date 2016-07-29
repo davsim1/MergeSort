@@ -1,23 +1,87 @@
 // David Simmons 7/28/2016
-// I made this recursive version of merge sort for practice without looking at any other resources.
+// Made to practice making sorting algorithms from my own memory.
 
 package sorter;
 
 public class Sorter {
 
 	public static void main(String[] args) {
-		int[] A = { 3, 1, 4, 15, 9, 2, 6, 5, 35, 8, 97, 93, 23, 84, 62, 64, 33 };
-		int[] B = sort(A);
+		int[] list = {3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3};
+		System.out.println("Original: ");
+		for(int i : list) {
+			System.out.print(i);
+		}	
+		System.out.println();
+		
+		list = new int[] {3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3};
+		selectionSort(list);
+		System.out.println("Selection sort: ");
+		for(int i : list) {
+			System.out.print(i);
+		}	
+		System.out.println();
+		
+		list = new int[] {3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3};
+		quicksort(list);
+		System.out.println("Quicksort: ");
+		for(int i : list) {
+			System.out.print(i);
+		}	
+		System.out.println();
+		
+		list = new int[] {3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3};
+		list = mergesort(list);
+		System.out.println("Mergesort: ");
+		for(int i : list) {
+			System.out.print(i);
+		}	
+	}
 
-		// Print list in sorted order
-		System.out.println("Sorted:");
-		for (int i : B) {
-			System.out.println(i);
+	public static void selectionSort(int[] input) {
+		int minIndex = 0;
+		int temp = -1;
+
+		for (int i = 0; i < input.length; i++) {
+			minIndex = i;
+			for (int j = i; j < input.length; j++) {
+				if (input[j] < input[minIndex]) {
+					minIndex = j;
+				}
+			}
+			temp = input[i];
+			input[i] = input[minIndex];
+			input[minIndex] = temp;
+		}
+		
+	}
+	
+	public static void quicksort(int[] list) {
+		quicksort(list, 0, list.length -1);
+	}
+
+	private static void quicksort(int[] list, int i, int j) {
+		if (j < list.length && (j - i) >= 1) {
+			int border = i;
+			int temp;
+			for (int k = i; k < j; k++) {
+				if (list[k] <= list[j]) {
+					temp = list[border];
+					list[border] = list[k];
+					list[k] = temp;
+					border++;		
+				}
+			}
+		
+			temp = list[border];
+			list[border] = list[j];
+			list[j] = temp;
+			quicksort(list, i, border - 1);
+			quicksort(list, border + 1, j);
 		}
 	}
 
 	// Call this to sort an array of ints.
-	public static int[] sort(int[] list) {
+	public static int[] mergesort(int[] list) {
 		int[] result = new int[list.length];
 		int i = 0;
 
