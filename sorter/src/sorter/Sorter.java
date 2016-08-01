@@ -9,7 +9,7 @@ public class Sorter {
 		int[] list = {3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3};
 		System.out.println("Original: ");
 		for(int i : list) {
-			System.out.print(i);
+			System.out.print(i + ",");
 		}	
 		System.out.println();
 		
@@ -17,7 +17,7 @@ public class Sorter {
 		selectionSort(list);
 		System.out.println("Selection sort: ");
 		for(int i : list) {
-			System.out.print(i);
+			System.out.print(i + ",");
 		}	
 		System.out.println();
 		
@@ -25,7 +25,7 @@ public class Sorter {
 		quicksort(list);
 		System.out.println("Quicksort: ");
 		for(int i : list) {
-			System.out.print(i);
+			System.out.print(i + ",");
 		}	
 		System.out.println();
 		
@@ -33,10 +33,17 @@ public class Sorter {
 		list = mergesort(list);
 		System.out.println("Mergesort: ");
 		for(int i : list) {
-			System.out.print(i);
+			System.out.print(i + ",");
 		}	
+		System.out.println();
+		
+		list = new int[] {3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3,2,3};
+		System.out.println("Tree Sort: ");
+		treeSortPrint(list);
+		
 	}
 
+	// Selection
 	public static void selectionSort(int[] input) {
 		int minIndex = 0;
 		int temp = -1;
@@ -55,6 +62,7 @@ public class Sorter {
 		
 	}
 	
+	// Quick
 	public static void quicksort(int[] list) {
 		quicksort(list, 0, list.length -1);
 	}
@@ -80,7 +88,7 @@ public class Sorter {
 		}
 	}
 
-	// Call this to sort an array of ints.
+	// Merge
 	public static int[] mergesort(int[] list) {
 		int[] result = new int[list.length];
 		int i = 0;
@@ -172,5 +180,46 @@ public class Sorter {
 		}
 
 		return result;
+	}
+	
+	// Tree 
+	public static class Node {
+		int data;
+		Node left;
+		Node right;
+
+		public Node(int data) {
+			this.data = data;
+		}
+	}
+
+	public static void treeSortPrint(int[] list) {
+		Node tree = null;
+
+		for (int i : list) {
+			tree = add(tree, i);
+		}
+
+		printInOrder(tree);
+	}
+
+	public static Node add(Node tree, int input) {
+		if (tree == null) {
+			return new Node(input);
+		} else if (input <= tree.data) {
+			tree.left = add(tree.left, input);
+		} else {
+			tree.right = add(tree.right, input);
+		}
+
+		return tree;
+	}
+
+	public static void printInOrder(Node tree) {
+		if (tree != null) {
+			printInOrder(tree.left);
+			System.out.print(tree.data + ",");
+			printInOrder(tree.right);
+		}
 	}
 }
